@@ -53,6 +53,17 @@ def get_todos():
 
     return jsonify(results)
 
+@app.route("/todo/<id>", methods=["PATCH"])
+def update_todo(id):
+    todo = Todo.query.get(id)
+    
+    new_done = request.json["done"]
+
+    todo.done = new_done
+
+    db.session.commit()
+    return todo_schema.jsonify(todo)
+
 
 if __name__ == "__main__":
     app.debug = True
